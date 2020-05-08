@@ -451,23 +451,23 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## 工作区与暂存区</span><br><span class="line">![](https:&#x2F;&#x2F;camo.githubusercontent.com&#x2F;14659c736537a60e9cf0076be119e14ef3cb089a&#x2F;68747470733a2f2f63646e2e6c69616f78756566656e672e636f6d2f63646e2f66696c65732f6174746163686d656e74732f30303133383439303737303239313733343637323965396166626634313237623664666261653932303761663031363030302f30)  </span><br><span class="line"></span><br><span class="line">工作区就是电脑中能看到的目录，工作区有一个隐藏目录&#96;.git&#96;，这是Git的版本库 </span><br><span class="line">### 管理修改</span><br><span class="line">#### 修改但未add</span><br><span class="line">* 比较工作区与暂存区（即上次git add的内容）的不同  </span><br><span class="line"></span><br><span class="line">比较所有修改文件的不同</span><br></pre></td></tr></table></figure>
 <p>$ git diff</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">比较指定修改文件的不同</span><br></pre></td></tr></table></figure>
-<p>$ git diff <file-name></p>
+<p>$ git diff <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 修改已add但未commit</span><br><span class="line">* 比较暂存区与仓库分支（上次git commit）的不同</span><br></pre></td></tr></table></figure>
 <p>$ git diff –staged</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或</span><br></pre></td></tr></table></figure>
 <p>$ git diff –cached</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 撤销修改</span><br><span class="line">* 场景1——工作区已修改但未add到暂存区</span><br></pre></td></tr></table></figure>
-<p>$ git checkout – <file-name></p>
+<p>$ git checkout – <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">其实就是用版本库里的版本替换工作区的版本</span><br><span class="line">* 场景2——工作区修改且已经git add到暂存区，分两步</span><br></pre></td></tr></table></figure>
-<p>$ git reset HEAD <file-name></p>
+<p>$ git reset HEAD <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">回到场景1，再按场景1操作</span><br><span class="line">* 场景3：已经commit但没有推送到远程库——**版本回退**</span><br><span class="line">## 删除文件</span><br><span class="line">假设文件原已commit，目前情况是——已经在目录下手动或&#96;$ rm &lt;file-name&gt;&#96;删除文件</span><br><span class="line">* 选择一：确实要从版本库中删除该文件，分两步  </span><br><span class="line"></span><br><span class="line">第一步</span><br></pre></td></tr></table></figure>
-<p>$ git rm <file-name></p>
+<p>$ git rm <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或</span><br></pre></td></tr></table></figure>
-<p>git add <file-name></p>
+<p>git add <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第二步</span><br></pre></td></tr></table></figure>
 <p>$ git commit -m “description”</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 选择二：删错了，要恢复</span><br></pre></td></tr></table></figure>
-<p>$ git checkout – <file-name></p>
+<p>$ git checkout – <file-name></file-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">其实就是用版本库里的版本替换工作区的版本</span><br><span class="line">## 远程仓库</span><br><span class="line">#### 创建SSH Key</span><br></pre></td></tr></table></figure>
 <p>$ ssh-keygen -t rsa -C “<a href="mailto:youremail@example.com">youremail@example.com</a>“</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**补充**  在用户主目录下(&#96;cd&#96;)  </span><br><span class="line"></span><br><span class="line">&#96;$ ls -ah&#96;可见&#96;.ssh&#96;目录  </span><br><span class="line"></span><br><span class="line">&#96;$ cd .ssh&#96;可见&#96;id_rsa&#96;(私钥不能泄露)和&#96;id_rsa.pub&#96;(公钥可公开)</span><br><span class="line">#### 关联远程仓库</span><br></pre></td></tr></table></figure>
@@ -489,19 +489,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 分支管理</span><br><span class="line">#### 查看分支</span><br></pre></td></tr></table></figure>
 <p>$ git branch</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 创建分支</span><br></pre></td></tr></table></figure>
-<p>$ git branch <branch-name></p>
+<p>$ git branch <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 切换分支</span><br></pre></td></tr></table></figure>
-<p>$ git checkout <branch-name></p>
+<p>$ git checkout <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 创建+切换分支</span><br></pre></td></tr></table></figure>
-<p>$ git checkout -b <branch-name></p>
+<p>$ git checkout -b <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 合并某分支到当前分支</span><br></pre></td></tr></table></figure>
-<p>$ git merge <branch-name></p>
+<p>$ git merge <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 普通模式合并分支</span><br></pre></td></tr></table></figure>
-<p>$ git merge –no-ff -m “description” <branch-name></p>
+<p>$ git merge –no-ff -m “description” <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">通常进行分支合并时，如果可以，Git会使用&#96;Fast forward&#96;模式，删除分支后，分支历史信息会丢失  </span><br><span class="line"></span><br><span class="line">&#96;--no-ff&#96;表示禁用&#96;Fast forward&#96;模式，能看出曾做过合并</span><br><span class="line">#### 删除分支</span><br></pre></td></tr></table></figure>
-<p>$ git branch -d <branch-name></p>
+<p>$ git branch -d <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 强行删除分支</span><br></pre></td></tr></table></figure>
-<p>$ git branch -D <branch-name></p>
+<p>$ git branch -D <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 查看分支合并图</span><br></pre></td></tr></table></figure>
 <p>$ git log –graph</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">简洁查看</span><br></pre></td></tr></table></figure>
@@ -521,37 +521,37 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">详细查看</span><br></pre></td></tr></table></figure>
 <p>git remote -v</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 本地推送分支</span><br></pre></td></tr></table></figure>
-<p>$ git push origin <branch-name></p>
+<p>$ git push origin <branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 在本地创建和远程分支对应的分支</span><br></pre></td></tr></table></figure>
-<p>$ git checkout -b <branch-name> origin/<branch-name></p>
+<p>$ git checkout -b <branch-name> origin/<branch-name></branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 建立本地分支和远程分支的关联</span><br></pre></td></tr></table></figure>
-<p>$ git branch –set-upstream <branch-name> origin/<branch-name></p>
+<p>$ git branch –set-upstream <branch-name> origin/<branch-name></branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或</span><br></pre></td></tr></table></figure>
-<p>$ git branch –set-upstream-to=origin/<branch-name> <branch-name></p>
+<p>$ git branch –set-upstream-to=origin/<branch-name> <branch-name></branch-name></branch-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 从远程抓取分支</span><br></pre></td></tr></table></figure>
 <p>$ git pull</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## Rebase“变基”</span><br></pre></td></tr></table></figure>
 <p>$ git rebase</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">把分叉的提交历史“整理”成一条直线，看上去更直观。缺点是本地的分叉提交已经被修改过了。  </span><br><span class="line"></span><br><span class="line">只对尚未推送或尚未分享给别人的本地修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作</span><br><span class="line">## 标签管理</span><br><span class="line">发布一个版本时，我们通常先在版本库中打一个标签（&#96;tag&#96;），这样，就唯一确定了打标签时刻的版本  </span><br><span class="line"></span><br><span class="line">将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照</span><br><span class="line">#### 创建标签</span><br></pre></td></tr></table></figure>
-<p>$ git tag <tag-name></p>
+<p>$ git tag <tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在最新commit上打一个标签</span><br></pre></td></tr></table></figure>
-<p>$ git tag <tag-name> commit-id</p>
+<p>$ git tag <tag-name> commit-id</tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在对应的commit_id上打一个新标签</span><br><span class="line">#### 创建带有说明的标签</span><br></pre></td></tr></table></figure>
-<p>$ git tag -a <tag-name> -m “description” commit-id</p>
+<p>$ git tag -a <tag-name> -m “description” commit-id</tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#96;-a&#96;指定标签名，&#96;-m&#96;指定说明文字  </span><br><span class="line">#### 查看所有标签</span><br></pre></td></tr></table></figure>
 <p>$ git tag</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 查看对应标签的信息</span><br></pre></td></tr></table></figure>
-<p>$ git show <tag-name></p>
+<p>$ git show <tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**注意**标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</span><br><span class="line">### 操作标签</span><br><span class="line">#### 推送某个标签到远程</span><br></pre></td></tr></table></figure>
-<p>$ git push origin <tag-name></p>
+<p>$ git push origin <tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 一次性推送全部尚未推送的标签到远程</span><br></pre></td></tr></table></figure>
 <p>git push origin –tags</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 删除一个本地标签</span><br></pre></td></tr></table></figure>
-<p>$ git tag -d <tag-name></p>
+<p>$ git tag -d <tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 删除一个远程标签</span><br><span class="line">先从本地删除</span><br></pre></td></tr></table></figure>
-<p>$ git tag -d <tag-name></p>
+<p>$ git tag -d <tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">再从远程删除</span><br></pre></td></tr></table></figure>
-<p>$ git push origin :refs/tags/<tag-name></p>
+<p>$ git push origin :refs/tags/<tag-name></tag-name></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## 使用GitHub</span><br><span class="line">如何参与一个开源项目  </span><br><span class="line"></span><br><span class="line">&#96;Fork&#96;任意开源库 ——&gt; 从自己的账户下&#96;clone&#96; ——&gt; 修复bug或者新增一个功能 ——&gt; 若希望官方库接受你的修改，可以在GitHub上发起一个&#96;pull request&#96;</span><br><span class="line">## 本地库既关联GitHub，又关联码云</span><br><span class="line">如原来已经关联了默认名&#96;origin&#96;的GitHub  </span><br><span class="line">1. 先删除已关联的名为&#96;origin&#96;的远程库：</span><br></pre></td></tr></table></figure>
 <p>$ git remote rm origin</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2. 然后，先关联GitHub的远程库：</span><br></pre></td></tr></table></figure>
