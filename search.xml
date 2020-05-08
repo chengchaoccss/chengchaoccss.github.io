@@ -1,139 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>知识积累</title>
-    <url>/2020/05/08/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/</url>
-    <content><![CDATA[<h1 id="今日知识积累"><a href="#今日知识积累" class="headerlink" title="今日知识积累"></a>今日知识积累</h1><p>[TOC]</p>
-<h2 id="谷歌云最新搭建ssr方法"><a href="#谷歌云最新搭建ssr方法" class="headerlink" title="谷歌云最新搭建ssr方法"></a>谷歌云最新搭建ssr方法</h2><ol>
-<li><p>登录谷歌云创建实例，其中实例系统选择centos8版本</p>
-</li>
-<li><p>切换管理员<code>sudo su</code></p>
-</li>
-<li><p>安装wget，<code>yum install wget -y</code></p>
-</li>
-<li><p>安装ssr脚本代码，可以在github下的shellhub仓库中查看。</p>
-<p><code>wget -N --no-check-certificate https://raw.githubusercontent.com/shellhub/shellhub/master/shadowsocksr.sh &amp;&amp; chmod +x shadowsocksr.sh &amp;&amp; ./shadowsocksr.sh</code></p>
-</li>
-</ol>
-<h2 id="ssh本地工具登录谷歌云方法"><a href="#ssh本地工具登录谷歌云方法" class="headerlink" title="ssh本地工具登录谷歌云方法"></a>ssh本地工具登录谷歌云方法</h2><ol>
-<li>通过浏览器ssh登录服务器</li>
-<li>通过<code>sudo \etc\ssh\sshd_config</code>命令对文件修改</li>
-<li>permitroot……改为yes</li>
-<li>passwordlogin……改为yes</li>
-<li><code>sudo passwd rood</code>修改root用户密码</li>
-<li><code>sudo reboot</code>重启服务器</li>
-<li>xshell软件登陆</li>
-</ol>
-<h2 id="将linux服务器作为云计算"><a href="#将linux服务器作为云计算" class="headerlink" title="将linux服务器作为云计算"></a>将linux服务器作为云计算</h2><p>把类型python运行任务推送到linux服务器中，用linux机器运行，避免本地就算就cpu占用</p>
-<p><code>ssh root@ip地址 python3 &lt; ~/Desktop/chao.py</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chao@chao-PC:~&#x2F;Desktop$ cd python&#x2F;</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ls</span><br><span class="line">chao.py  cstudynote.md  readme.md  test.c</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ vim chao.py </span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ssh root@34.92.227.121 python3 &lt; .&#x2F;chao.py</span><br><span class="line">root@34.92.227.121&#39;s password: </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ python3 chao.py </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="centos中使用locate查找命令"><a href="#centos中使用locate查找命令" class="headerlink" title="centos中使用locate查找命令"></a>centos中使用locate查找命令</h2><p>没有安装先安装</p>
-<p><code>yum install mlocate</code></p>
-<p>如果文件没有查找到，先用<code>updatedb</code>命令更新一下数据库。</p>
-<p><code>locate readme.md</code></p>
-<p>也可以使用find命令查找：</p>
-<p><code>find / -name readme.md</code></p>
-<p>locate命令比find更快</p>
-<h2 id="利用scp命令传输文件到linux服务器"><a href="#利用scp命令传输文件到linux服务器" class="headerlink" title="利用scp命令传输文件到linux服务器"></a>利用scp命令传输文件到linux服务器</h2><p>先获取root权限</p>
-<p><code>root@chao-PC:~# scp &#39;/home/chao/Desktop/python/test.c&#39; root@34.92.227.121:/root/</code></p>
-<p>输入服务器root用户密码即可。</p>
-<h2 id="selenium安装及配置"><a href="#selenium安装及配置" class="headerlink" title="selenium安装及配置"></a>selenium安装及配置</h2><ul>
-<li><p>首先安装python、pip、selenium库</p>
-</li>
-<li><p>查看当前谷歌浏览器版本</p>
-</li>
-<li><p>去下载网站下载对应版本的驱动</p>
-<ul>
-<li><a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" rel="noopener">http://chromedriver.storage.googleapis.com/index.html</a></li>
-</ul>
-</li>
-<li><p>可以使用了。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">chrome_path = <span class="string">r"C:\Users\Thinkpad\AppData\Local\Programs\Python\Python36\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"</span> <span class="comment"># 这是chromedrive.exe的文件路径，注意使用r转义字符</span></span><br><span class="line">browser = webdriver.Chrome(executable_path=chrome_path)</span><br><span class="line">browser.get(<span class="string">"http://www.baidu.com"</span>) <span class="comment">#网站需要完整，必须加http://</span></span><br><span class="line">browser.close() <span class="comment"># 程序最后加上close方法，关闭浏览器</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>或者</strong></p>
-</li>
-<li><p>复制chromedrive.exe到谷歌浏览器的安装目录</p>
-</li>
-<li><p>再把安装目录路径添加到环境变量</p>
-</li>
-<li><p>重启pycharm</p>
-</li>
-<li><p>可以直接使用了，无需指定chromedrive.exe的路径了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment"># chrome_path = r"C:\Users\Thinkpad\AppData\Local\Programs\Python\Python36\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"</span></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h2 id="selenium基本使用"><a href="#selenium基本使用" class="headerlink" title="selenium基本使用"></a>selenium基本使用</h2><ul>
-<li>调用浏览器<code>b=webdriver.Chorme()</code></li>
-<li>打开网页<code>b.get(&quot;http://www.baidu,com&quot;)</code></li>
-<li>基本判断<code>b.title,b.current_url</code></li>
-<li>查找元素<code>ele = b.find_element_by_id/name()</code></li>
-<li><code>ele.clear()，ele.send_keys(&quot;arg&quot;)</code></li>
-<li>前进后退。<code>b.back()，b.forward()</code></li>
-</ul>
-<img src="D:\我的坚果云\重要笔记\IT学习\selenium资料\selenium查找元素.png" style="zoom:30%;" />
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>clear</td>
-<td>清除内容</td>
-</tr>
-<tr>
-<td>send_keys()</td>
-<td>模拟按键输入</td>
-</tr>
-<tr>
-<td>click</td>
-<td>点击</td>
-</tr>
-<tr>
-<td>submit</td>
-<td>提交表单</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>窗口最大化：b.maximize_window()</p>
-</li>
-<li><p>属性css与xpath定位元素的方法</p>
-<ul>
-<li>css语法参考：<a href="https://www.runoob.com/css/css-id-class.html" target="_blank" rel="noopener">https://www.runoob.com/css/css-id-class.html</a></li>
-<li>xpath语法参考：<a href="https://www.runoob.com/xpath/xpath-syntax.html" target="_blank" rel="noopener">https://www.runoob.com/xpath/xpath-syntax.html</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="linux-cat命令"><a href="#linux-cat命令" class="headerlink" title="linux cat命令"></a>linux cat命令</h2><p><strong>可以结合cat和eof来实现输入重定向到文件中</strong></p>
-<p><code>cat &gt; a.txt &lt;&lt;eof</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao ~]# cat &gt;chao.md &lt;&lt;eof</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment"># this is a note</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment">## using cat&gt;chao.md&lt;eof</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> this is a very goog way to take the note</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ok finish!</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> eof</span></span><br><span class="line">[root@ssrchao ~]# ls</span><br><span class="line">a  b  chaofile  chao.md</span><br></pre></td></tr></table></figure>
-
-<h2 id="linux-cut命令"><a href="#linux-cut命令" class="headerlink" title="linux cut命令"></a>linux cut命令</h2><p><strong>结合echo 生成特定位数的随机数</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">186</span><br><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">278</span><br><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">170</span><br></pre></td></tr></table></figure>
-
-<p><strong>按特定符号分割</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao newdir]# echo "a:b:c" | cut -d ":" -f 2</span><br><span class="line">b</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="linux-du命令"><a href="#linux-du命令" class="headerlink" title="linux du命令"></a>linux du命令</h2><p><code>du -sh chao.txt</code></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>git常用命令</title>
-    <url>/2020/05/07/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">git add . #这是添加所有文件</span><br><span class="line">git commit -m &quot;注释信息&quot;</span><br><span class="line">git log</span><br><span class="line">git pull origin master</span><br><span class="line">git push origin master #若出现远程仓库与本地仓库不同的情况，需要先pull后push</span><br><span class="line">git remote add origin git@github.com:chengchaoccss&#x2F;blog.git</span><br><span class="line">ssh-keygen -t rsa -C &quot;1280116143@qq.com&quot;</span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
     <title>Hexo常用命令</title>
     <url>/2020/05/08/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -395,6 +262,29 @@ GitHub就是一个免费托管开源代码的远程仓库
 [搭建见廖老师教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000)</code></pre>]]></content>
   </entry>
   <entry>
+    <title>hexo+github+window10搭建个人博客教程</title>
+    <url>/2020/05/08/hexo-github-window10%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>今天学习了利用hexo来搭建个人博客，并上传到github来实现远程访问，遇到了一些小问题，在此做一个整体记录，防止后面忘记，也为需要的同学提供一个参考。</p>
+<h3 id="第一步：下载node-js和git"><a href="#第一步：下载node-js和git" class="headerlink" title="第一步：下载node.js和git"></a>第一步：下载node.js和git</h3><h3 id="第二步：安装hexo"><a href="#第二步：安装hexo" class="headerlink" title="第二步：安装hexo"></a>第二步：安装hexo</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三步：创建博客文件夹"><a href="#第三步：创建博客文件夹" class="headerlink" title="第三步：创建博客文件夹"></a>第三步：创建博客文件夹</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo init chaoBlog</span><br><span class="line">或者手动创建文件夹，进入文件夹后使用命令：hexo init</span><br><span class="line"></span><br><span class="line">进入chaoBlog文件夹，使用hexo g命令及hexo s命令便能实现本地网页浏览。</span><br></pre></td></tr></table></figure>
+
+<h3 id="第四步：上传github"><a href="#第四步：上传github" class="headerlink" title="第四步：上传github"></a>第四步：上传github</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在github上创建空的仓库，仓库名必须是github用户名.github.io</span><br><span class="line">其中我的github用户名是：chengchaoccss</span><br><span class="line">创建好以后，修改_config.yml文件</span><br><span class="line"></span><br><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;chengchaoccss&#x2F;chengchaoccss.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line">  </span><br><span class="line">修改好以后使用命令：hexo d上传</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第五步：更换主题"><a href="#第五步：更换主题" class="headerlink" title="第五步：更换主题"></a>第五步：更换主题</h3><p>常用的主题是next</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cd &lt;博客存放的目录&gt;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;iissnan&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
+
+<p>下载好以后修改config.yml文件即可，<strong>需要注意的是该主题home和archieves跳转会出现404错误，所以需要对next主题里面的config文件进行修改，修改内容参照landscape主题</strong>。</p>
+<p><img src="G:%5C%E6%88%91%E7%9A%84%E5%9D%9A%E6%9E%9C%E4%BA%91%5C%E9%87%8D%E8%A6%81%E7%AC%94%E8%AE%B0%5CchaoBlog%5Csource_posts%5Chexo-github-windows10%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B%5Cimage-20200508103853343.png" alt=""></p>
+<h3 id="第六步：为博文加密"><a href="#第六步：为博文加密" class="headerlink" title="第六步：为博文加密"></a>第六步：为博文加密</h3><p>参考文章：<a href="https://blog.csdn.net/wcc178399/article/details/103985916" target="_blank" rel="noopener">https://blog.csdn.net/wcc178399/article/details/103985916</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.打开themes-&gt;next-&gt;layout-&gt;_partials-&gt;head.swig文件,在以下位置插入这样一段代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&#39;&#123;&#123; page.password &#125;&#125;&#39;)&#123;</span><br><span class="line">            if (prompt(&#39;请输入文章密码&#39;) !&#x3D;&#x3D; &#39;&#123;&#123; page.password &#125;&#125;&#39;)&#123;</span><br><span class="line">                alert(&#39;密码错误！&#39;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">2.在需要加密的博文前面加上密码：</span><br></pre></td></tr></table></figure>
+
+<p><img src="G:%5C%E6%88%91%E7%9A%84%E5%9D%9A%E6%9E%9C%E4%BA%91%5C%E9%87%8D%E8%A6%81%E7%AC%94%E8%AE%B0%5CchaoBlog%5Csource_posts%5Chexo-github-windows10%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B%5Cimage-20200508105425614.png" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
     <title>hexo-github-windows搭建个人博客教程</title>
     <url>/2020/05/08/hexo-github-windows%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<hr>
@@ -414,6 +304,139 @@ GitHub就是一个免费托管开源代码的远程仓库
 <h3 id="第六步：为博文加密"><a href="#第六步：为博文加密" class="headerlink" title="第六步：为博文加密"></a>第六步：为博文加密</h3><p>参考文章：<a href="https://blog.csdn.net/wcc178399/article/details/103985916" target="_blank" rel="noopener">https://blog.csdn.net/wcc178399/article/details/103985916</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.打开themes-&gt;next-&gt;layout-&gt;_partials-&gt;head.swig文件,在以下位置插入这样一段代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&#39;&#123;&#123; page.password &#125;&#125;&#39;)&#123;</span><br><span class="line">            if (prompt(&#39;请输入文章密码&#39;) !&#x3D;&#x3D; &#39;&#123;&#123; page.password &#125;&#125;&#39;)&#123;</span><br><span class="line">                alert(&#39;密码错误！&#39;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">2.在需要加密的博文前面加上密码：</span><br></pre></td></tr></table></figure>
 
+]]></content>
+  </entry>
+  <entry>
+    <title>git常用命令</title>
+    <url>/2020/05/07/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">git add . #这是添加所有文件</span><br><span class="line">git commit -m &quot;注释信息&quot;</span><br><span class="line">git log</span><br><span class="line">git pull origin master</span><br><span class="line">git push origin master #若出现远程仓库与本地仓库不同的情况，需要先pull后push</span><br><span class="line">git remote add origin git@github.com:chengchaoccss&#x2F;blog.git</span><br><span class="line">ssh-keygen -t rsa -C &quot;1280116143@qq.com&quot;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>知识积累</title>
+    <url>/2020/05/08/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/</url>
+    <content><![CDATA[<h1 id="今日知识积累"><a href="#今日知识积累" class="headerlink" title="今日知识积累"></a>今日知识积累</h1><p>[TOC]</p>
+<h2 id="谷歌云最新搭建ssr方法"><a href="#谷歌云最新搭建ssr方法" class="headerlink" title="谷歌云最新搭建ssr方法"></a>谷歌云最新搭建ssr方法</h2><ol>
+<li><p>登录谷歌云创建实例，其中实例系统选择centos8版本</p>
+</li>
+<li><p>切换管理员<code>sudo su</code></p>
+</li>
+<li><p>安装wget，<code>yum install wget -y</code></p>
+</li>
+<li><p>安装ssr脚本代码，可以在github下的shellhub仓库中查看。</p>
+<p><code>wget -N --no-check-certificate https://raw.githubusercontent.com/shellhub/shellhub/master/shadowsocksr.sh &amp;&amp; chmod +x shadowsocksr.sh &amp;&amp; ./shadowsocksr.sh</code></p>
+</li>
+</ol>
+<h2 id="ssh本地工具登录谷歌云方法"><a href="#ssh本地工具登录谷歌云方法" class="headerlink" title="ssh本地工具登录谷歌云方法"></a>ssh本地工具登录谷歌云方法</h2><ol>
+<li>通过浏览器ssh登录服务器</li>
+<li>通过<code>sudo \etc\ssh\sshd_config</code>命令对文件修改</li>
+<li>permitroot……改为yes</li>
+<li>passwordlogin……改为yes</li>
+<li><code>sudo passwd rood</code>修改root用户密码</li>
+<li><code>sudo reboot</code>重启服务器</li>
+<li>xshell软件登陆</li>
+</ol>
+<h2 id="将linux服务器作为云计算"><a href="#将linux服务器作为云计算" class="headerlink" title="将linux服务器作为云计算"></a>将linux服务器作为云计算</h2><p>把类型python运行任务推送到linux服务器中，用linux机器运行，避免本地就算就cpu占用</p>
+<p><code>ssh root@ip地址 python3 &lt; ~/Desktop/chao.py</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chao@chao-PC:~&#x2F;Desktop$ cd python&#x2F;</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ls</span><br><span class="line">chao.py  cstudynote.md  readme.md  test.c</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ vim chao.py </span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ssh root@34.92.227.121 python3 &lt; .&#x2F;chao.py</span><br><span class="line">root@34.92.227.121&#39;s password: </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ python3 chao.py </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="centos中使用locate查找命令"><a href="#centos中使用locate查找命令" class="headerlink" title="centos中使用locate查找命令"></a>centos中使用locate查找命令</h2><p>没有安装先安装</p>
+<p><code>yum install mlocate</code></p>
+<p>如果文件没有查找到，先用<code>updatedb</code>命令更新一下数据库。</p>
+<p><code>locate readme.md</code></p>
+<p>也可以使用find命令查找：</p>
+<p><code>find / -name readme.md</code></p>
+<p>locate命令比find更快</p>
+<h2 id="利用scp命令传输文件到linux服务器"><a href="#利用scp命令传输文件到linux服务器" class="headerlink" title="利用scp命令传输文件到linux服务器"></a>利用scp命令传输文件到linux服务器</h2><p>先获取root权限</p>
+<p><code>root@chao-PC:~# scp &#39;/home/chao/Desktop/python/test.c&#39; root@34.92.227.121:/root/</code></p>
+<p>输入服务器root用户密码即可。</p>
+<h2 id="selenium安装及配置"><a href="#selenium安装及配置" class="headerlink" title="selenium安装及配置"></a>selenium安装及配置</h2><ul>
+<li><p>首先安装python、pip、selenium库</p>
+</li>
+<li><p>查看当前谷歌浏览器版本</p>
+</li>
+<li><p>去下载网站下载对应版本的驱动</p>
+<ul>
+<li><a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" rel="noopener">http://chromedriver.storage.googleapis.com/index.html</a></li>
+</ul>
+</li>
+<li><p>可以使用了。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">chrome_path = <span class="string">r"C:\Users\Thinkpad\AppData\Local\Programs\Python\Python36\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"</span> <span class="comment"># 这是chromedrive.exe的文件路径，注意使用r转义字符</span></span><br><span class="line">browser = webdriver.Chrome(executable_path=chrome_path)</span><br><span class="line">browser.get(<span class="string">"http://www.baidu.com"</span>) <span class="comment">#网站需要完整，必须加http://</span></span><br><span class="line">browser.close() <span class="comment"># 程序最后加上close方法，关闭浏览器</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>或者</strong></p>
+</li>
+<li><p>复制chromedrive.exe到谷歌浏览器的安装目录</p>
+</li>
+<li><p>再把安装目录路径添加到环境变量</p>
+</li>
+<li><p>重启pycharm</p>
+</li>
+<li><p>可以直接使用了，无需指定chromedrive.exe的路径了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment"># chrome_path = r"C:\Users\Thinkpad\AppData\Local\Programs\Python\Python36\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"</span></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.get(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="selenium基本使用"><a href="#selenium基本使用" class="headerlink" title="selenium基本使用"></a>selenium基本使用</h2><ul>
+<li>调用浏览器<code>b=webdriver.Chorme()</code></li>
+<li>打开网页<code>b.get(&quot;http://www.baidu,com&quot;)</code></li>
+<li>基本判断<code>b.title,b.current_url</code></li>
+<li>查找元素<code>ele = b.find_element_by_id/name()</code></li>
+<li><code>ele.clear()，ele.send_keys(&quot;arg&quot;)</code></li>
+<li>前进后退。<code>b.back()，b.forward()</code></li>
+</ul>
+<img src="D:\我的坚果云\重要笔记\IT学习\selenium资料\selenium查找元素.png" style="zoom:30%;" />
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>clear</td>
+<td>清除内容</td>
+</tr>
+<tr>
+<td>send_keys()</td>
+<td>模拟按键输入</td>
+</tr>
+<tr>
+<td>click</td>
+<td>点击</td>
+</tr>
+<tr>
+<td>submit</td>
+<td>提交表单</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>窗口最大化：b.maximize_window()</p>
+</li>
+<li><p>属性css与xpath定位元素的方法</p>
+<ul>
+<li>css语法参考：<a href="https://www.runoob.com/css/css-id-class.html" target="_blank" rel="noopener">https://www.runoob.com/css/css-id-class.html</a></li>
+<li>xpath语法参考：<a href="https://www.runoob.com/xpath/xpath-syntax.html" target="_blank" rel="noopener">https://www.runoob.com/xpath/xpath-syntax.html</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="linux-cat命令"><a href="#linux-cat命令" class="headerlink" title="linux cat命令"></a>linux cat命令</h2><p><strong>可以结合cat和eof来实现输入重定向到文件中</strong></p>
+<p><code>cat &gt; a.txt &lt;&lt;eof</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao ~]# cat &gt;chao.md &lt;&lt;eof</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment"># this is a note</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment">## using cat&gt;chao.md&lt;eof</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> this is a very goog way to take the note</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ok finish!</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> eof</span></span><br><span class="line">[root@ssrchao ~]# ls</span><br><span class="line">a  b  chaofile  chao.md</span><br></pre></td></tr></table></figure>
+
+<h2 id="linux-cut命令"><a href="#linux-cut命令" class="headerlink" title="linux cut命令"></a>linux cut命令</h2><p><strong>结合echo 生成特定位数的随机数</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">186</span><br><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">278</span><br><span class="line">[root@ssrchao newdir]# echo $RANDOM | cut -c 1-3</span><br><span class="line">170</span><br></pre></td></tr></table></figure>
+
+<p><strong>按特定符号分割</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao newdir]# echo "a:b:c" | cut -d ":" -f 2</span><br><span class="line">b</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="linux-du命令"><a href="#linux-du命令" class="headerlink" title="linux du命令"></a>linux du命令</h2><p><code>du -sh chao.txt</code></p>
 ]]></content>
   </entry>
 </search>
