@@ -320,8 +320,7 @@ GitHub就是一个免费托管开源代码的远程仓库
   <entry>
     <title>知识积累</title>
     <url>/2020/05/08/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/</url>
-    <content><![CDATA[<h1 id="今日知识积累"><a href="#今日知识积累" class="headerlink" title="今日知识积累"></a>今日知识积累</h1><p>[TOC]</p>
-<h2 id="谷歌云最新搭建ssr方法"><a href="#谷歌云最新搭建ssr方法" class="headerlink" title="谷歌云最新搭建ssr方法"></a>谷歌云最新搭建ssr方法</h2><ol>
+    <content><![CDATA[<h3 id="谷歌云最新搭建ssr方法"><a href="#谷歌云最新搭建ssr方法" class="headerlink" title="谷歌云最新搭建ssr方法"></a>谷歌云最新搭建ssr方法</h3><ol>
 <li><p>登录谷歌云创建实例，其中实例系统选择centos8版本</p>
 </li>
 <li><p>切换管理员<code>sudo su</code></p>
@@ -332,32 +331,37 @@ GitHub就是一个免费托管开源代码的远程仓库
 <p><code>wget -N --no-check-certificate https://raw.githubusercontent.com/shellhub/shellhub/master/shadowsocksr.sh &amp;&amp; chmod +x shadowsocksr.sh &amp;&amp; ./shadowsocksr.sh</code></p>
 </li>
 </ol>
-<h2 id="ssh本地工具登录谷歌云方法"><a href="#ssh本地工具登录谷歌云方法" class="headerlink" title="ssh本地工具登录谷歌云方法"></a>ssh本地工具登录谷歌云方法</h2><ol>
-<li>通过浏览器ssh登录服务器</li>
-<li>通过<code>sudo \etc\ssh\sshd_config</code>命令对文件修改</li>
-<li>permitroot……改为yes</li>
-<li>passwordlogin……改为yes</li>
-<li><code>sudo passwd rood</code>修改root用户密码</li>
-<li><code>sudo reboot</code>重启服务器</li>
-<li>xshell软件登陆</li>
+<h3 id="ssh本地工具登录谷歌云方法"><a href="#ssh本地工具登录谷歌云方法" class="headerlink" title="ssh本地工具登录谷歌云方法"></a>ssh本地工具登录谷歌云方法</h3><ol>
+<li><p>通过浏览器ssh登录服务器</p>
+</li>
+<li><p>通过<code>sudo \etc\ssh\sshd_config</code>命令对文件修改</p>
+</li>
+<li><p>permitroot……改为yes</p>
+</li>
+<li><p>passwordlogin……改为yes</p>
+</li>
+<li><p><code>sudo passwd rood</code>修改root用户密码</p>
+</li>
+<li><p><code>sudo reboot</code>重启服务器</p>
+</li>
+<li><p>xshell软件登陆</p>
+</li>
 </ol>
-<h2 id="将linux服务器作为云计算"><a href="#将linux服务器作为云计算" class="headerlink" title="将linux服务器作为云计算"></a>将linux服务器作为云计算</h2><p>把类型python运行任务推送到linux服务器中，用linux机器运行，避免本地就算就cpu占用</p>
+<h3 id="将linux服务器作为云计算"><a href="#将linux服务器作为云计算" class="headerlink" title="将linux服务器作为云计算"></a>将linux服务器作为云计算</h3><p>把类型python运行任务推送到linux服务器中，用linux机器运行，避免本地就算就cpu占用</p>
 <p><code>ssh root@ip地址 python3 &lt; ~/Desktop/chao.py</code></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chao@chao-PC:~&#x2F;Desktop$ cd python&#x2F;</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ls</span><br><span class="line">chao.py  cstudynote.md  readme.md  test.c</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ vim chao.py </span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ ssh root@34.92.227.121 python3 &lt; .&#x2F;chao.py</span><br><span class="line">root@34.92.227.121&#39;s password: </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$ python3 chao.py </span><br><span class="line">a&#x3D; 49985001</span><br><span class="line">this is running in the Linux</span><br><span class="line">chao@chao-PC:~&#x2F;Desktop&#x2F;python$</span><br></pre></td></tr></table></figure>
 
-
-
-<h2 id="centos中使用locate查找命令"><a href="#centos中使用locate查找命令" class="headerlink" title="centos中使用locate查找命令"></a>centos中使用locate查找命令</h2><p>没有安装先安装</p>
+<h3 id="centos中使用locate查找命令"><a href="#centos中使用locate查找命令" class="headerlink" title="centos中使用locate查找命令"></a>centos中使用locate查找命令</h3><p>没有安装先安装</p>
 <p><code>yum install mlocate</code></p>
 <p>如果文件没有查找到，先用<code>updatedb</code>命令更新一下数据库。</p>
 <p><code>locate readme.md</code></p>
 <p>也可以使用find命令查找：</p>
 <p><code>find / -name readme.md</code></p>
 <p>locate命令比find更快</p>
-<h2 id="利用scp命令传输文件到linux服务器"><a href="#利用scp命令传输文件到linux服务器" class="headerlink" title="利用scp命令传输文件到linux服务器"></a>利用scp命令传输文件到linux服务器</h2><p>先获取root权限</p>
+<h3 id="利用scp命令传输文件到linux服务器"><a href="#利用scp命令传输文件到linux服务器" class="headerlink" title="利用scp命令传输文件到linux服务器"></a>利用scp命令传输文件到linux服务器</h3><p>先获取root权限</p>
 <p><code>root@chao-PC:~# scp &#39;/home/chao/Desktop/python/test.c&#39; root@34.92.227.121:/root/</code></p>
 <p>输入服务器root用户密码即可。</p>
-<h2 id="selenium安装及配置"><a href="#selenium安装及配置" class="headerlink" title="selenium安装及配置"></a>selenium安装及配置</h2><ul>
+<h3 id="selenium安装及配置"><a href="#selenium安装及配置" class="headerlink" title="selenium安装及配置"></a>selenium安装及配置</h3><ul>
 <li><p>首先安装python、pip、selenium库</p>
 </li>
 <li><p>查看当前谷歌浏览器版本</p>
@@ -385,7 +389,7 @@ GitHub就是一个免费托管开源代码的远程仓库
 
 </li>
 </ul>
-<h2 id="selenium基本使用"><a href="#selenium基本使用" class="headerlink" title="selenium基本使用"></a>selenium基本使用</h2><ul>
+<h3 id="selenium基本使用"><a href="#selenium基本使用" class="headerlink" title="selenium基本使用"></a>selenium基本使用</h3><ul>
 <li>调用浏览器<code>b=webdriver.Chorme()</code></li>
 <li>打开网页<code>b.get(&quot;http://www.baidu,com&quot;)</code></li>
 <li>基本判断<code>b.title,b.current_url</code></li>
@@ -429,7 +433,7 @@ GitHub就是一个免费托管开源代码的远程仓库
 </ul>
 </li>
 </ul>
-<h2 id="linux-cat命令"><a href="#linux-cat命令" class="headerlink" title="linux cat命令"></a>linux cat命令</h2><p><strong>可以结合cat和eof来实现输入重定向到文件中</strong></p>
+<h3 id="linux-cat命令"><a href="#linux-cat命令" class="headerlink" title="linux cat命令"></a>linux cat命令</h3><p><strong>可以结合cat和eof来实现输入重定向到文件中</strong></p>
 <p><code>cat &gt; a.txt &lt;&lt;eof</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@ssrchao ~]# cat &gt;chao.md &lt;&lt;eof</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment"># this is a note</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="comment">## using cat&gt;chao.md&lt;eof</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> this is a very goog way to take the note</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ok finish!</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> eof</span></span><br><span class="line">[root@ssrchao ~]# ls</span><br><span class="line">a  b  chaofile  chao.md</span><br></pre></td></tr></table></figure>
 
