@@ -196,6 +196,14 @@
 <p><code>&lt;!--more--&gt;</code></p>
 <h3 id="第十步：修改博客字体"><a href="#第十步：修改博客字体" class="headerlink" title="第十步：修改博客字体"></a>第十步：修改博客字体</h3><p>参考文章：<a href="https://blog.csdn.net/sailist/article/details/104114578" target="_blank" rel="noopener">https://blog.csdn.net/sailist/article/details/104114578</a></p>
 <p>测试过文章中的方法，成功修改next主题的字体及字号！</p>
+<h3 id><a href="#" class="headerlink" title></a></h3><ol>
+<li>点击YouTube分享</li>
+<li>点击嵌入</li>
+<li>复制代码到markdown文档中<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;iframe width&#x3D;&quot;100%&quot; height&#x3D;&quot;415&quot; src&#x3D;&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;Pkmpj5PBp6g&quot; frameborder&#x3D;&quot;0&quot; allow&#x3D;&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;&#x2F;iframe&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<iframe width="100%" height="415" src="https://www.youtube.com/embed/Pkmpj5PBp6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ]]></content>
   </entry>
   <entry>
