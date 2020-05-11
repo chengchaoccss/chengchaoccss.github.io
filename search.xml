@@ -10,6 +10,9 @@
     <url>/2020/05/07/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">git add . #这是添加所有文件</span><br><span class="line">git commit -m &quot;注释信息&quot;</span><br><span class="line">git log</span><br><span class="line">git pull origin master</span><br><span class="line">git push origin master #若出现远程仓库与本地仓库不同的情况，需要先pull后push</span><br><span class="line">git remote add origin git@github.com:chengchaoccss&#x2F;blog.git</span><br><span class="line">ssh-keygen -t rsa -C &quot;1280116143@qq.com&quot;</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>git知识</category>
+      </categories>
   </entry>
   <entry>
     <title>Qt designer设计的界面到pycharm程序中运行结果不一样</title>
@@ -455,5 +458,12 @@ GitHub就是一个免费托管开源代码的远程仓库
 但是对于某些视源代码如生命的商业公司来说，既不想公开源代码，又舍不得给GitHub交保护费，那就只能自己搭建一台Git服务器作为私有仓库使用  
 
 [搭建见廖老师教程](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000)</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/05/11/test/</url>
+    <content><![CDATA[<p>这是hexo博客的测试文章</p>
+<p>&lt;!–more__&gt;<br>测试结果如下！</p>
+]]></content>
   </entry>
 </search>
