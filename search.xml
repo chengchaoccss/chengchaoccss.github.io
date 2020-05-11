@@ -463,7 +463,8 @@ GitHub就是一个免费托管开源代码的远程仓库
     <title>test</title>
     <url>/2020/05/11/test/</url>
     <content><![CDATA[<p>这是hexo博客的测试文章</p>
-<p>&lt;!–more__&gt;<br>测试结果如下！</p>
+<a id="more"></a>
+<p>测试结果如下！</p>
 ]]></content>
   </entry>
 </search>
