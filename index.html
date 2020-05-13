@@ -300,6 +300,128 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/13/python%E9%93%BE%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小超：">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="菜鸟超个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/13/python%E9%93%BE%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">python链接mysql数据库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-13T15:52:32+08:00">
+                2020-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>python链接mysql数据库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="comment"># 1. 连接数据库，</span></span><br><span class="line">conn = pymysql.connect(</span><br><span class="line">    host=<span class="string">'34.96.244.247'</span>,</span><br><span class="line">    user=<span class="string">'root'</span>,</span><br><span class="line">    password=<span class="string">'cclss520'</span>,</span><br><span class="line">    db=<span class="string">'chaodata'</span>,</span><br><span class="line">    charset=<span class="string">'utf8'</span>,</span><br><span class="line">       <span class="comment"># autocommit=True,    # 如果插入数据，， 是否自动提交? 和conn.commit()功能一致。</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># ****python, 必须有一个游标对象， 用来给数据库发送sql语句， 并执行的.</span></span><br><span class="line"><span class="comment"># 2. 创建游标对象，</span></span><br><span class="line">cur = conn.cursor()</span><br><span class="line"><span class="comment"># 3. 对于数据库进行增删改查</span></span><br><span class="line"><span class="comment"># 1). ************************创建数据表**********************************</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    create_sqli = <span class="string">"create table hello (id int, name varchar(30));"</span></span><br><span class="line">    cur.execute(create_sqli)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"创建数据表失败:"</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"创建数据表成功;"</span>)</span><br><span class="line"><span class="comment">## 2). *********************插入数据****************************</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    insert_sqli = <span class="string">"insert into hello values(2, 'fensi');"</span></span><br><span class="line">    cur.execute(insert_sqli)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"插入数据失败:"</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># 如果是插入数据， 一定要提交数据， 不然数据库中找不到要插入的数据;</span></span><br><span class="line">    conn.commit()</span><br><span class="line">    print(<span class="string">"插入数据成功;"</span>)</span><br><span class="line"><span class="comment"># 3). *********************插入多条数据****************************</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    info = [(i, <span class="string">"westos%s"</span> %(i)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># *********************第一种方式********************</span></span><br><span class="line">    <span class="comment"># %s必须手动添加一个字符串， 否则就是一个变量名， 会报错.</span></span><br><span class="line">    insert_sqli = <span class="string">"insert into hello values(%d, '%s');"</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> info:</span><br><span class="line">        print(<span class="string">'insert语句:'</span>, insert_sqli %item)</span><br><span class="line">        cur.execute(insert_sqli %item)</span><br><span class="line"></span><br><span class="line">     <span class="comment"># *********************第二种方式********************</span></span><br><span class="line">    insert_sqli = <span class="string">"insert into hello values(%s, %s);"</span></span><br><span class="line">    cur.executemany(insert_sqli, info )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"插入多条数据失败:"</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># 如果是插入数据， 一定要提交数据， 不然数据库中找不到要插入的数据;</span></span><br><span class="line">    conn.commit()</span><br><span class="line">    print(<span class="string">"插入多条数据成功;"</span>)</span><br><span class="line"><span class="comment"># 4). **************************数据库查询*****************************</span></span><br><span class="line">sqli = <span class="string">"select * from hello;"</span></span><br><span class="line">result = cur.execute(sqli)  <span class="comment"># 默认不返回查询结果集， 返回数据记录数。</span></span><br><span class="line">print(result)</span><br><span class="line">print(cur.fetchone())     <span class="comment"># 1). 获取下一个查询结果集;</span></span><br><span class="line">print(cur.fetchone())</span><br><span class="line">print(cur.fetchone())</span><br><span class="line">print(cur.fetchmany(<span class="number">4</span>))   <span class="comment"># 2). 获取制定个数个查询结果集；</span></span><br><span class="line">info = cur.fetchall()     <span class="comment"># 3). 获取所有的查询结果</span></span><br><span class="line">print(info)</span><br><span class="line">print(len(info))</span><br><span class="line">print(cur.rowcount)       <span class="comment"># 4). 返回执行sql语句影响的行数</span></span><br><span class="line"><span class="comment">#  5). 移动游标指针</span></span><br><span class="line">print(cur.fetchmany(<span class="number">3</span>))</span><br><span class="line">print(<span class="string">"正在移动指针到最开始......"</span>)</span><br><span class="line">cur.scroll(<span class="number">0</span>, <span class="string">'absolute'</span>)</span><br><span class="line">print(cur.fetchmany(<span class="number">3</span>))</span><br><span class="line">print(<span class="string">"正在移动指针到倒数第2个......"</span>)</span><br><span class="line">print(cur.fetchall())    <span class="comment"># 移动到最后</span></span><br><span class="line">cur.scroll(<span class="number">-2</span>, mode=<span class="string">'relative'</span>)</span><br><span class="line">print(cur.fetchall())</span><br><span class="line"><span class="comment"># 4. 关闭游标</span></span><br><span class="line">cur.close()</span><br><span class="line"><span class="comment"># 5. 关闭连接</span></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/12/play/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -374,130 +496,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/05/12/play/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="小超：">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="菜鸟超个人博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/11/test/" itemprop="url">test</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-11T14:37:48+08:00">
-                2020-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这是hexo博客的测试文章</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/test/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
