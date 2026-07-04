@@ -1,6 +1,8 @@
 const COIN_ID = "origin-lgns";
 const REFRESH_MS = 30_000;
-const API_URL = `https://api.coingecko.com/api/v3/simple/price?ids=${COIN_ID}&vs_currencies=usd,cny&include_24hr_change=true&include_last_updated_at=true`;
+const COINGECKO_API = `https://api.coingecko.com/api/v3/simple/price?ids=${COIN_ID}&vs_currencies=usd,cny&include_24hr_change=true&include_last_updated_at=true`;
+const DEXSCREENER_API = "https://api.dexscreener.com/latest/dex/search?q=LGNS";
+const FALLBACK_USD_CNY = 7.25;
 
 const $ = (id) => document.getElementById(id);
 
@@ -36,6 +38,7 @@ const cachedQuote = JSON.parse(localStorage.getItem("lgns_last_quote") || "null"
 let prices = cachedQuote?.prices || { usd: null, cny: null };
 let lastUpdatedAt = cachedQuote?.lastUpdatedAt || null;
 let lastChange24h = typeof cachedQuote?.change24h === "number" ? cachedQuote.change24h : null;
+let lastSource = cachedQuote?.source || "--";
 let lastQuoteIsStale = !!cachedQuote;
 
 let currentCurrency = localStorage.getItem("lgns_currency") || "usd";
@@ -60,12 +63,13 @@ function hasAnyValidPrice() {
   return hasValidPrice("usd") || hasValidPrice("cny");
 }
 
-function saveQuoteToCache(change24h = lastChange24h, updatedAt = lastUpdatedAt) {
+function saveQuoteToCache() {
   if (!hasAnyValidPrice()) return;
   localStorage.setItem("lgns_last_quote", JSON.stringify({
     prices,
-    change24h,
-    lastUpdatedAt: updatedAt,
+    change24h: lastChange24h,
+    lastUpdatedAt,
+    source: lastSource,
     cachedAt: Date.now()
   }));
 }
@@ -170,7 +174,9 @@ function updateQuoteMetaUI() {
   const updatedText = lastUpdatedAt
     ? new Date(lastUpdatedAt * 1000).toLocaleString("zh-CN", { hour12: false })
     : "--";
-  priceChange.textContent = `24h：${changeText} · 更新时间：${updatedText}${lastQuoteIsStale ? " · 使用缓存" : ""}`;
+  const staleText = lastQuoteIsStale ? " · 使用上次价格" : "";
+  const sourceText = lastSource && lastSource !== "--" ? ` · ${lastSource}` : "";
+  priceChange.textContent = `24h：${changeText} · 更新时间：${updatedText}${sourceText}${staleText}`;
   changeValue.textContent = typeof lastChange24h === "number" ? `${lastChange24h >= 0 ? "+" : ""}${lastChange24h.toFixed(2)}%` : "--";
   changeValue.style.color = typeof lastChange24h === "number" && lastChange24h < 0 ? "#fb7185" : "#4ade80";
 }
@@ -197,23 +203,25 @@ function renderValues(record = false) {
   updateQuoteMetaUI();
   amountText.textContent = savedAmount > 0 ? `按 ${fmtNum(savedAmount)} LGNS 计算` : "请先确认保存币量";
 
-  const price = prices[currentCurrency];
+  if (hasValidPrice(currentCurrency)) {
+    const price = prices[currentCurrency];
+    priceEl.textContent = fmtMoney(price);
+    tickerPrice.textContent = fmtMoney(price);
+    tickerPrice2.textContent = fmtMoney(price);
+  } else {
+    priceEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+    tickerPrice.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+    tickerPrice2.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+  }
+
   if (!hasValidPrice(currentCurrency) || savedAmount <= 0) {
-    if (!hasValidPrice(currentCurrency)) {
-      priceEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
-      tickerPrice.textContent = `${currencyMeta[currentCurrency].symbol}--`;
-      tickerPrice2.textContent = `${currencyMeta[currentCurrency].symbol}--`;
-    }
     totalEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
     tickerValue.textContent = `总价值 ${currencyMeta[currentCurrency].symbol}--`;
     tickerValue2.textContent = `总价值 ${currencyMeta[currentCurrency].symbol}--`;
     return;
   }
 
-  const value = savedAmount * price;
-  priceEl.textContent = fmtMoney(price);
-  tickerPrice.textContent = fmtMoney(price);
-  tickerPrice2.textContent = fmtMoney(price);
+  const value = savedAmount * prices[currentCurrency];
   totalEl.textContent = fmtMoney(value);
   tickerValue.textContent = `总价值 ${fmtMoney(value)}`;
   tickerValue2.textContent = `总价值 ${fmtMoney(value)}`;
@@ -240,42 +248,90 @@ function renderValues(record = false) {
   }
 }
 
+async function fetchJson(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(url, { cache: "no-store", signal: controller.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchFromCoinGecko() {
+  const data = await fetchJson(COINGECKO_API);
+  const coin = data[COIN_ID];
+  const usd = Number(coin?.usd);
+  const cny = Number(coin?.cny);
+  if (!Number.isFinite(usd) || usd <= 0) throw new Error("CoinGecko 没有返回有效 USD");
+  return {
+    source: "CoinGecko",
+    usd,
+    cny: Number.isFinite(cny) && cny > 0 ? cny : usd * FALLBACK_USD_CNY,
+    change24h: typeof coin.usd_24h_change === "number" ? coin.usd_24h_change : null,
+    updatedAt: coin.last_updated_at || Math.floor(Date.now() / 1000)
+  };
+}
+
+async function fetchFromDexScreener() {
+  const data = await fetchJson(DEXSCREENER_API);
+  const pairs = Array.isArray(data?.pairs) ? data.pairs : [];
+  const candidates = pairs
+    .filter(p => String(p?.baseToken?.symbol || "").toUpperCase() === "LGNS" && Number(p?.priceUsd) > 0)
+    .sort((a, b) => Number(b?.liquidity?.usd || 0) - Number(a?.liquidity?.usd || 0));
+  const best = candidates[0];
+  if (!best) throw new Error("DexScreener 没有找到 LGNS 有效交易对");
+  const usd = Number(best.priceUsd);
+  return {
+    source: "DexScreener",
+    usd,
+    cny: usd * FALLBACK_USD_CNY,
+    change24h: typeof best?.priceChange?.h24 === "number" ? best.priceChange.h24 : null,
+    updatedAt: Math.floor(Date.now() / 1000)
+  };
+}
+
+async function fetchLatestQuote() {
+  const sources = [fetchFromCoinGecko, fetchFromDexScreener];
+  let lastError;
+  for (const source of sources) {
+    try {
+      return await source();
+    } catch (err) {
+      lastError = err;
+      console.warn("price source failed:", err);
+    }
+  }
+  throw lastError || new Error("所有行情源都失败");
+}
+
 async function fetchPrice(manual = false) {
   try {
     setStatus(hasAnyValidPrice(), manual ? "手动刷新中…" : "正在获取价格…");
-    const res = await fetch(API_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const data = await res.json();
-    const coin = data[COIN_ID];
-    const nextUsd = Number(coin?.usd);
-    const nextCny = Number(coin?.cny);
-
-    if (!Number.isFinite(nextUsd) || nextUsd <= 0) throw new Error("价格数据为空");
-
-    prices = {
-      usd: nextUsd,
-      cny: Number.isFinite(nextCny) && nextCny > 0 ? nextCny : prices.cny
-    };
-    lastChange24h = typeof coin.usd_24h_change === "number" ? coin.usd_24h_change : lastChange24h;
-    lastUpdatedAt = coin.last_updated_at || Math.floor(Date.now() / 1000);
+    const quote = await fetchLatestQuote();
+    prices = { usd: quote.usd, cny: quote.cny };
+    lastChange24h = quote.change24h;
+    lastUpdatedAt = quote.updatedAt;
+    lastSource = quote.source;
     lastQuoteIsStale = false;
-    saveQuoteToCache(lastChange24h, lastUpdatedAt);
+    saveQuoteToCache();
 
-    setStatus(true, "价格已更新");
+    setStatus(true, `价格已更新 · ${quote.source}`);
     renderValues(true);
     setFlash(priceEl);
-    if (manual) showToast("价格已刷新");
+    if (manual) showToast(`价格已刷新：${quote.source}`);
   } catch (err) {
     console.warn("LGNS price fetch failed, keep previous quote:", err);
     if (hasAnyValidPrice()) {
       lastQuoteIsStale = true;
       setStatus(true, "获取失败，继续使用上次价格");
-      updateQuoteMetaUI();
       renderValues(false);
       if (manual) showToast("未获取到新价格，已保留上次价格");
     } else {
       setStatus(false, "暂无价格，稍后自动重试");
+      priceChange.textContent = "行情源暂时不可用，稍后自动重试";
       if (manual) showToast("暂时没有价格数据");
     }
   }
