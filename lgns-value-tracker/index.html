@@ -4,16 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LGNS 实时资产价值追踪</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=2" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
 </head>
 <body>
+  <div class="noise"></div>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+
   <main class="app">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">LGNS · Origin LGNS</p>
+    <section class="hero panel tilt-card">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> LGNS · Origin LGNS</p>
         <h1>实时资产价值追踪</h1>
-        <p class="desc">自动拉取 LGNS 最新美元价格，输入你的持币量后，实时计算总价值并绘制价值曲线。</p>
+        <p class="desc">输入币量后点击确认保存，系统才会开始按已保存持仓记录价值曲线。适合盯盘，但别被盘盯上。</p>
+        <div class="hero-actions">
+          <a class="ghostBtn" href="https://www.coingecko.com/en/coins/origin-lgns" target="_blank" rel="noreferrer">查看行情源</a>
+          <button id="pulseBtn" class="ghostBtn">刷新一次</button>
+        </div>
+      </div>
+      <div class="price-chip">
+        <div class="ring"></div>
+        <div>
+          <span>Live Price</span>
+          <strong id="price">$--</strong>
+          <small id="priceChange">更新时间：--</small>
+        </div>
       </div>
       <div class="status">
         <span id="statusDot" class="dot"></span>
@@ -22,48 +39,59 @@
     </section>
 
     <section class="grid">
-      <div class="card">
+      <div class="card input-card tilt-card">
         <label for="amount">我的 LGNS 数量</label>
-        <input id="amount" type="number" min="0" step="0.0001" placeholder="例如：600" />
-        <div class="hint">输入后会保存到本地浏览器，下次打开自动带出。</div>
+        <div class="input-row">
+          <input id="amount" type="number" min="0" step="0.0001" placeholder="例如：600" />
+          <button id="saveAmountBtn" class="primaryBtn">确认保存</button>
+        </div>
+        <div class="save-line">
+          <span id="saveState" class="saveState">未保存变更</span>
+          <span id="savedAmountText">已保存：-- LGNS</span>
+        </div>
       </div>
 
-      <div class="card metric">
-        <span>LGNS 当前价格</span>
-        <strong id="price">$--</strong>
-        <small id="priceChange">更新时间：--</small>
-      </div>
-
-      <div class="card metric">
+      <div class="card metric tilt-card">
         <span>我的总价值</span>
         <strong id="totalValue">$--</strong>
-        <small id="amountText">数量：-- LGNS</small>
+        <small id="amountText">按已保存数量计算</small>
       </div>
 
-      <div class="card metric">
+      <div class="card metric tilt-card">
+        <span>24h 涨跌</span>
+        <strong id="changeValue">--</strong>
+        <small>来自 CoinGecko</small>
+      </div>
+
+      <div class="card metric tilt-card">
         <span>刷新频率</span>
         <strong id="refreshText">30s</strong>
-        <small>CoinGecko 免费接口，别刷太猛</small>
+        <small id="recordState">保存币量后开始记录</small>
       </div>
     </section>
 
-    <section class="card chartCard">
+    <section class="card chartCard tilt-card">
       <div class="chartHead">
         <div>
           <h2>实时价值曲线</h2>
-          <p>页面打开后开始记录；曲线数据保存在本地浏览器。</p>
+          <p>只有点击“确认保存”后的持仓才会进入曲线记录；每次刷新价格记录一个点。</p>
         </div>
-        <button id="clearBtn">清空曲线</button>
+        <div class="buttonGroup">
+          <button id="clearBtn" class="ghostBtn">清空曲线</button>
+        </div>
       </div>
       <canvas id="valueChart"></canvas>
     </section>
 
-    <section class="card note">
-      <h2>说明</h2>
-      <p>价格来源：CoinGecko Simple Price API，币种 ID：<code>origin-lgns</code>。由于免费公开接口可能有频率限制，默认每 30 秒刷新一次。</p>
+    <section class="ticker card">
+      <div class="ticker-track">
+        <span>LGNS</span><b>·</b><span id="tickerPrice">$--</span><b>·</b><span id="tickerValue">总价值 $--</span><b>·</b><span>Auto Refresh 30s</span>
+        <span>LGNS</span><b>·</b><span id="tickerPrice2">$--</span><b>·</b><span id="tickerValue2">总价值 $--</span><b>·</b><span>Auto Refresh 30s</span>
+      </div>
     </section>
   </main>
 
-  <script src="./app.js"></script>
+  <div id="toast" class="toast">已保存</div>
+  <script src="./app.js?v=2"></script>
 </body>
 </html>
