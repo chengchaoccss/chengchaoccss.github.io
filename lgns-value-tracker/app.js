@@ -32,7 +32,12 @@ const tickerCurrency2 = $("tickerCurrency2");
 const usdBtn = $("usdBtn");
 const cnyBtn = $("cnyBtn");
 
-let prices = { usd: null, cny: null };
+const cachedQuote = JSON.parse(localStorage.getItem("lgns_last_quote") || "null");
+let prices = cachedQuote?.prices || { usd: null, cny: null };
+let lastUpdatedAt = cachedQuote?.lastUpdatedAt || null;
+let lastChange24h = typeof cachedQuote?.change24h === "number" ? cachedQuote.change24h : null;
+let lastQuoteIsStale = !!cachedQuote;
+
 let currentCurrency = localStorage.getItem("lgns_currency") || "usd";
 let savedAmount = Number(localStorage.getItem("lgns_saved_amount") || 0);
 let draftAmount = localStorage.getItem("lgns_draft_amount") || "";
@@ -47,9 +52,27 @@ const currencyMeta = {
   cny: { code: "CNY", symbol: "¥", locale: "zh-CN", label: "人民币" }
 };
 
+function hasValidPrice(currency = currentCurrency) {
+  return typeof prices[currency] === "number" && Number.isFinite(prices[currency]) && prices[currency] > 0;
+}
+
+function hasAnyValidPrice() {
+  return hasValidPrice("usd") || hasValidPrice("cny");
+}
+
+function saveQuoteToCache(change24h = lastChange24h, updatedAt = lastUpdatedAt) {
+  if (!hasAnyValidPrice()) return;
+  localStorage.setItem("lgns_last_quote", JSON.stringify({
+    prices,
+    change24h,
+    lastUpdatedAt: updatedAt,
+    cachedAt: Date.now()
+  }));
+}
+
 function convertFromUsd(valueUsd) {
   if (currentCurrency === "usd") return valueUsd;
-  if (!prices.usd || !prices.cny) return valueUsd;
+  if (!hasValidPrice("usd") || !hasValidPrice("cny")) return valueUsd;
   return valueUsd * (prices.cny / prices.usd);
 }
 
@@ -141,6 +164,17 @@ function updateCurrencyUI() {
   chart.update();
 }
 
+function updateQuoteMetaUI() {
+  if (lastChange24h == null && !lastUpdatedAt) return;
+  const changeText = typeof lastChange24h === "number" ? `${lastChange24h.toFixed(2)}%` : "--";
+  const updatedText = lastUpdatedAt
+    ? new Date(lastUpdatedAt * 1000).toLocaleString("zh-CN", { hour12: false })
+    : "--";
+  priceChange.textContent = `24h：${changeText} · 更新时间：${updatedText}${lastQuoteIsStale ? " · 使用缓存" : ""}`;
+  changeValue.textContent = typeof lastChange24h === "number" ? `${lastChange24h >= 0 ? "+" : ""}${lastChange24h.toFixed(2)}%` : "--";
+  changeValue.style.color = typeof lastChange24h === "number" && lastChange24h < 0 ? "#fb7185" : "#4ade80";
+}
+
 function updateSaveUI() {
   const draft = getDraftAmount();
   localStorage.setItem("lgns_draft_amount", amountInput.value || "");
@@ -160,11 +194,16 @@ function setFlash(el) {
 function renderValues(record = false) {
   updateSaveUI();
   updateCurrencyUI();
+  updateQuoteMetaUI();
   amountText.textContent = savedAmount > 0 ? `按 ${fmtNum(savedAmount)} LGNS 计算` : "请先确认保存币量";
 
   const price = prices[currentCurrency];
-  if (price == null || savedAmount <= 0) {
-    if (price == null) priceEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+  if (!hasValidPrice(currentCurrency) || savedAmount <= 0) {
+    if (!hasValidPrice(currentCurrency)) {
+      priceEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+      tickerPrice.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+      tickerPrice2.textContent = `${currencyMeta[currentCurrency].symbol}--`;
+    }
     totalEl.textContent = `${currencyMeta[currentCurrency].symbol}--`;
     tickerValue.textContent = `总价值 ${currencyMeta[currentCurrency].symbol}--`;
     tickerValue2.textContent = `总价值 ${currencyMeta[currentCurrency].symbol}--`;
@@ -179,7 +218,7 @@ function renderValues(record = false) {
   tickerValue.textContent = `总价值 ${fmtMoney(value)}`;
   tickerValue2.textContent = `总价值 ${fmtMoney(value)}`;
 
-  if (record && prices.usd && savedAmount > 0) {
+  if (record && hasValidPrice("usd") && savedAmount > 0) {
     const valueUsd = savedAmount * prices.usd;
     const now = new Date();
     const point = {
@@ -203,33 +242,42 @@ function renderValues(record = false) {
 
 async function fetchPrice(manual = false) {
   try {
-    setStatus(false, manual ? "手动刷新中…" : "正在获取价格…");
+    setStatus(hasAnyValidPrice(), manual ? "手动刷新中…" : "正在获取价格…");
     const res = await fetch(API_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
     const coin = data[COIN_ID];
-    if (!coin || typeof coin.usd !== "number") throw new Error("价格数据为空");
+    const nextUsd = Number(coin?.usd);
+    const nextCny = Number(coin?.cny);
 
-    prices.usd = coin.usd;
-    prices.cny = typeof coin.cny === "number" ? coin.cny : null;
-    const chg = coin.usd_24h_change;
-    const updated = coin.last_updated_at
-      ? new Date(coin.last_updated_at * 1000).toLocaleString("zh-CN", { hour12: false })
-      : new Date().toLocaleString("zh-CN", { hour12: false });
+    if (!Number.isFinite(nextUsd) || nextUsd <= 0) throw new Error("价格数据为空");
 
-    priceChange.textContent = `24h：${typeof chg === "number" ? chg.toFixed(2) + "%" : "--"} · 更新时间：${updated}`;
-    changeValue.textContent = typeof chg === "number" ? `${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%` : "--";
-    changeValue.style.color = typeof chg === "number" && chg < 0 ? "#fb7185" : "#4ade80";
+    prices = {
+      usd: nextUsd,
+      cny: Number.isFinite(nextCny) && nextCny > 0 ? nextCny : prices.cny
+    };
+    lastChange24h = typeof coin.usd_24h_change === "number" ? coin.usd_24h_change : lastChange24h;
+    lastUpdatedAt = coin.last_updated_at || Math.floor(Date.now() / 1000);
+    lastQuoteIsStale = false;
+    saveQuoteToCache(lastChange24h, lastUpdatedAt);
 
     setStatus(true, "价格已更新");
-    setFlash(priceEl);
     renderValues(true);
+    setFlash(priceEl);
     if (manual) showToast("价格已刷新");
   } catch (err) {
-    console.error(err);
-    setStatus(false, "获取失败，稍后自动重试");
-    if (manual) showToast("刷新失败，稍后重试");
+    console.warn("LGNS price fetch failed, keep previous quote:", err);
+    if (hasAnyValidPrice()) {
+      lastQuoteIsStale = true;
+      setStatus(true, "获取失败，继续使用上次价格");
+      updateQuoteMetaUI();
+      renderValues(false);
+      if (manual) showToast("未获取到新价格，已保留上次价格");
+    } else {
+      setStatus(false, "暂无价格，稍后自动重试");
+      if (manual) showToast("暂时没有价格数据");
+    }
   }
 }
 
@@ -287,5 +335,6 @@ document.querySelectorAll(".tilt-card").forEach(card => {
 updateSaveUI();
 updateCurrencyUI();
 renderValues(false);
+if (hasAnyValidPrice()) setStatus(true, "使用上次价格，正在刷新…");
 fetchPrice();
 setInterval(fetchPrice, REFRESH_MS);
