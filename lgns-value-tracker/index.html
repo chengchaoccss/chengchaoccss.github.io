@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LGNS 实时资产价值追踪</title>
-  <link rel="stylesheet" href="./styles.css?v=2" />
+  <link rel="stylesheet" href="./styles.css?v=3" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -18,16 +18,21 @@
       <div class="hero-copy">
         <p class="eyebrow"><span></span> LGNS · Origin LGNS</p>
         <h1>实时资产价值追踪</h1>
-        <p class="desc">输入币量后点击确认保存，系统才会开始按已保存持仓记录价值曲线。适合盯盘，但别被盘盯上。</p>
+        <p class="desc">输入币量后点击确认保存，系统才会开始按已保存持仓记录价值曲线。支持美元 / 人民币一键切换。</p>
         <div class="hero-actions">
           <a class="ghostBtn" href="https://www.coingecko.com/en/coins/origin-lgns" target="_blank" rel="noreferrer">查看行情源</a>
           <button id="pulseBtn" class="ghostBtn">刷新一次</button>
+          <div class="currencySwitch" role="group" aria-label="币种切换">
+            <button id="usdBtn" class="currencyBtn active" data-currency="usd">USD</button>
+            <button id="cnyBtn" class="currencyBtn" data-currency="cny">CNY</button>
+            <span id="currencyThumb" class="currencyThumb"></span>
+          </div>
         </div>
       </div>
       <div class="price-chip">
         <div class="ring"></div>
         <div>
-          <span>Live Price</span>
+          <span id="priceLabel">Live Price · USD</span>
           <strong id="price">$--</strong>
           <small id="priceChange">更新时间：--</small>
         </div>
@@ -52,7 +57,7 @@
       </div>
 
       <div class="card metric tilt-card">
-        <span>我的总价值</span>
+        <span id="totalLabel">我的总价值 · USD</span>
         <strong id="totalValue">$--</strong>
         <small id="amountText">按已保存数量计算</small>
       </div>
@@ -64,8 +69,8 @@
       </div>
 
       <div class="card metric tilt-card">
-        <span>刷新频率</span>
-        <strong id="refreshText">30s</strong>
+        <span>当前币种</span>
+        <strong id="currencyValue">USD</strong>
         <small id="recordState">保存币量后开始记录</small>
       </div>
     </section>
@@ -73,8 +78,8 @@
     <section class="card chartCard tilt-card">
       <div class="chartHead">
         <div>
-          <h2>实时价值曲线</h2>
-          <p>只有点击“确认保存”后的持仓才会进入曲线记录；每次刷新价格记录一个点。</p>
+          <h2 id="chartTitle">实时价值曲线 · USD</h2>
+          <p>曲线底层记录美元价值；切换人民币时会按当前人民币价格自动折算展示。</p>
         </div>
         <div class="buttonGroup">
           <button id="clearBtn" class="ghostBtn">清空曲线</button>
@@ -85,13 +90,13 @@
 
     <section class="ticker card">
       <div class="ticker-track">
-        <span>LGNS</span><b>·</b><span id="tickerPrice">$--</span><b>·</b><span id="tickerValue">总价值 $--</span><b>·</b><span>Auto Refresh 30s</span>
-        <span>LGNS</span><b>·</b><span id="tickerPrice2">$--</span><b>·</b><span id="tickerValue2">总价值 $--</span><b>·</b><span>Auto Refresh 30s</span>
+        <span>LGNS</span><b>·</b><span id="tickerPrice">$--</span><b>·</b><span id="tickerValue">总价值 $--</span><b>·</b><span id="tickerCurrency">USD Mode</span>
+        <span>LGNS</span><b>·</b><span id="tickerPrice2">$--</span><b>·</b><span id="tickerValue2">总价值 $--</span><b>·</b><span id="tickerCurrency2">USD Mode</span>
       </div>
     </section>
   </main>
 
   <div id="toast" class="toast">已保存</div>
-  <script src="./app.js?v=2"></script>
+  <script src="./app.js?v=3"></script>
 </body>
 </html>
